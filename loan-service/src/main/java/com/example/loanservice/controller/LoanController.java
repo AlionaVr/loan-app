@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/loan")
+@RequestMapping("/api/loan")
 @RequiredArgsConstructor
 public class LoanController {
 
@@ -21,7 +21,7 @@ public class LoanController {
     public ResponseEntity<String> applyForCredit(
             @Validated @RequestBody LoanRequestDto request) {
 
-        loanService.sendApplication(request);
-        return ResponseEntity.ok("Заявка на кредит отправлена");
+        Long requestId = loanService.send(request);
+        return ResponseEntity.ok("The loan application has been sent. Loan ID: " + requestId);
     }
 }

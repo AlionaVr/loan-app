@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-loan-table
+      author: alionaVr
+      changes:
+        - sqlFile:
+            path: db/sql/create-loan-table.sql
+            relativeToChangelogFile: false

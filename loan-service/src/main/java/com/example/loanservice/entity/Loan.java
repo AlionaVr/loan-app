@@ -3,6 +3,7 @@ package com.example.loanservice.entity;
 import com.example.loanservice.enums.LoanStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "loan_applications")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Loan {
@@ -32,13 +34,14 @@ public class Loan {
     @Column(name = "user_income", nullable = false, precision = 15, scale = 2)
     private BigDecimal userIncome;
 
-    @Column(name = "current_credit_debt", nullable = false, precision = 15, scale = 2)
-    private BigDecimal currentCreditDebt;
+    @Column(name = "current_debt", nullable = false, precision = 15, scale = 2)
+    private BigDecimal currentDebt;
 
-    @Column(name = "credit_rating", nullable = false)
-    private Integer creditRating;
+    @Column(name = "loan_rating", nullable = false)
+    private Integer loanRating;
 
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     @Column(name = "status", nullable = false)
     private LoanStatus status = LoanStatus.IN_PROGRESS;
 
