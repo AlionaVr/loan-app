@@ -5,10 +5,7 @@ import com.example.loanservice.service.LoanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/loan")
@@ -23,5 +20,10 @@ public class LoanController {
 
         Long requestId = loanService.send(request);
         return ResponseEntity.ok("The loan application has been sent. Loan ID: " + requestId);
+    }
+
+    @GetMapping("/status/{id}")
+    public ResponseEntity<String> getStatus(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(loanService.getStatus(id));
     }
 }

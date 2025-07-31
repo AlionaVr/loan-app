@@ -7,7 +7,9 @@ import com.example.loanservice.enums.LoanStatus;
 import com.example.loanservice.repository.LoanRepository;
 import com.example.loanservice.service.kafka.KafkaLoanEventProducer;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
@@ -39,5 +41,11 @@ public class LoanService {
         kafkaProducer.send(event);
 
         return savedLoan.getId();
+    }
+
+    public String getStatus(Long id) {
+        return repository.findById(id)
+                .map(loan -> loan.getStatus().name())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "loan application not found"));
     }
 }
