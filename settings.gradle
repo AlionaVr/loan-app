@@ -1,3 +1,8 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
 rootProject.name = 'Loan-app'
-
-include 'loan-service'
+include 'loan-service', 'loan-processor'
