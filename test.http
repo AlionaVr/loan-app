@@ -1,0 +1,29 @@
+### Test for Loan Application API
+
+## Test 1  -> status APPROVED
+POST http://localhost:8081/api/loan/apply
+Content-Type: application/json
+
+{
+  "loanAmount": 2222,
+  "loanTermMonths": 24,
+  "userIncome": 80000,
+  "currentDebt": 20000,
+  "loanRating": 720
+}
+
+### Test 2  -> status REJECTED
+
+POST http://localhost:8081/api/loan/apply
+Content-Type: application/json
+
+{
+  "loanAmount": 2222,
+  "loanTermMonths": 24,
+  "userIncome": 80000,
+  "currentDebt": 2000000,
+  "loanRating": 720
+}
+
+### Test 3
+GET http://localhost:8081/api/loan/status/1
