@@ -1,6 +1,6 @@
 package com.example.loanprocessor.service.producer;
 
-import com.example.loanprocessor.dto.event.LoanDecisionEvent;
+import com.example.common.dto.event.LoanDecisionEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

@@ -1,6 +1,6 @@
 package com.example.loanprocessor.service.consumer;
 
-import com.example.loanprocessor.dto.event.LoanEvent;
+import com.example.common.dto.event.LoanEvent;
 import com.example.loanprocessor.service.LoanDecisionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

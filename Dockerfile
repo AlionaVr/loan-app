@@ -2,6 +2,7 @@ FROM gradle:8.7.0-jdk17-alpine AS builder
 WORKDIR /app
 
 COPY build.gradle settings.gradle ./
+COPY common/build.gradle ./common/
 COPY loan-service/build.gradle ./loan-service/
 COPY loan-processor/build.gradle ./loan-processor/
 
@@ -22,3 +23,4 @@ WORKDIR /app
 COPY --from=builder /app/loan-processor/build/libs/*.jar app.jar
 EXPOSE 8082
 ENTRYPOINT ["java","-jar","app.jar"]
+

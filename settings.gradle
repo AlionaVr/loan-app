@@ -5,4 +5,4 @@ pluginManagement {
     }
 }
 rootProject.name = 'Loan-app'
-include 'loan-service', 'loan-processor'
+include 'loan-service', 'loan-processor', 'common'

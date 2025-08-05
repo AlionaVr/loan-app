@@ -1,4 +1,6 @@
 dependencies {
+    implementation project(':common')
+
     implementation 'org.springframework.kafka:spring-kafka:3.1.1'
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     testImplementation 'org.springframework.kafka:spring-kafka-test'

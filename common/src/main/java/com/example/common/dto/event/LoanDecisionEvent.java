@@ -1,4 +1,4 @@
-package com.example.loanprocessor.dto.event;
+package com.example.common.dto.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

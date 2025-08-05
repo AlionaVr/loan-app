@@ -1,8 +1,8 @@
 package com.example.loanservice.service;
 
+import com.example.common.dto.event.LoanDecisionEvent;
+import com.example.common.dto.event.LoanEvent;
 import com.example.loanservice.dto.LoanRequestDto;
-import com.example.loanservice.dto.event.LoanDecisionEvent;
-import com.example.loanservice.dto.event.LoanEvent;
 import com.example.loanservice.entity.Loan;
 import com.example.loanservice.enums.LoanStatus;
 import com.example.loanservice.repository.LoanRepository;

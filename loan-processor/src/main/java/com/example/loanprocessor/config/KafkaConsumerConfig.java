@@ -1,39 +1,38 @@
 package com.example.loanprocessor.config;
 
-import org.apache.kafka.clients.consumer.ConsumerConfig;
+import com.example.common.dto.event.LoanEvent;
+import lombok.RequiredArgsConstructor;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
-import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @EnableKafka
 @Configuration
+@RequiredArgsConstructor
 public class KafkaConsumerConfig {
-    @Bean
-    public ConsumerFactory<String, Object> consumerFactory() {
-        Map<String, Object> props = new HashMap<>();
 
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka:9092");
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "loan-group");
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-
-        return new DefaultKafkaConsumerFactory<>(props);
-    }
+    private final KafkaProperties kafkaProps;
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, Object>
-    kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, Object> factory =
-                new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactory());
+    public ConcurrentKafkaListenerContainerFactory<String, LoanEvent> kafkaListenerContainerFactory() {
+        var consumerProps = kafkaProps.buildConsumerProperties();
+
+        JsonDeserializer<LoanEvent> deserializer =
+                new JsonDeserializer<>(LoanEvent.class, false);
+
+        var cf = new DefaultKafkaConsumerFactory<>(
+                consumerProps,
+                new StringDeserializer(),
+                deserializer
+        );
+
+        var factory = new ConcurrentKafkaListenerContainerFactory<String, LoanEvent>();
+        factory.setConsumerFactory(cf);
         return factory;
     }
 }

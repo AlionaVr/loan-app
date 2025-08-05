@@ -1,4 +1,4 @@
-package com.example.loanprocessor.dto.event;
+package com.example.common.dto.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class IncomingLoanEvent {
+public class LoanEvent {
 
     private Long id;
     private BigDecimal loanAmount;

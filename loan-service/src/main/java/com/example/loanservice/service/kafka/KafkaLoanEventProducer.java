@@ -1,6 +1,6 @@
 package com.example.loanservice.service.kafka;
 
-import com.example.loanservice.dto.event.LoanEvent;
+import com.example.common.dto.event.LoanEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;

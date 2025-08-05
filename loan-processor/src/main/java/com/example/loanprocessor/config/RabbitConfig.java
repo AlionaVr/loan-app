@@ -1,34 +1,31 @@
 package com.example.loanprocessor.config;
 
+import com.example.common.AppRabbitProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
+@RequiredArgsConstructor
+@EnableConfigurationProperties(AppRabbitProperties.class)
 public class RabbitConfig {
 
-    @Value("${app.rabbitmq.exchange}")
-    private String exchange;
-
-    @Value("${app.rabbitmq.queue}")
-    private String queue;
-
-    @Value("${app.rabbitmq.routing-key}")
-    private String routingKey;
+    private final AppRabbitProperties props;
 
     @Bean
     public TopicExchange loanDecisionExchange() {
-        return new TopicExchange(exchange, true, false);
+        return new TopicExchange(props.getExchange(), true, false);
     }
 
     @Bean
     public Queue loanDecisionQueue() {
-        return QueueBuilder.durable(queue).build();
+        return QueueBuilder.durable(props.getQueue()).build();
     }
 
     @Bean
@@ -36,7 +33,7 @@ public class RabbitConfig {
         return BindingBuilder
                 .bind(loanDecisionQueue())
                 .to(loanDecisionExchange())
-                .with(routingKey);
+                .with(props.getRoutingKey());
     }
 
     @Bean
