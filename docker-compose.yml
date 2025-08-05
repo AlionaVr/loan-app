@@ -30,13 +30,27 @@ services:
     volumes:
       - kafka_data:/bitnami/kafka
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: rabbitmq
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
   loan-service:
     build:
       context: .
       dockerfile: Dockerfile
+      target: loan-service
     depends_on:
       - postgres
       - kafka
+      - rabbitmq
     ports:
       - "8081:8081"
     environment:
@@ -45,6 +59,39 @@ services:
       SPRING_DATASOURCE_PASSWORD: loan
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
 
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: rabbitmq
+      SPRING_RABBITMQ_PASSWORD: rabbitmq
+      # 🔧 Custom app-specific bindings
+      APP_RABBITMQ_EXCHANGE: loan-exchange
+      APP_RABBITMQ_QUEUE: loan-response-queue
+      APP_RABBITMQ_ROUTING-KEY: loan.response
+
+
+  loan-processor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: loan-processor
+    depends_on:
+      - kafka
+      - rabbitmq
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: rabbitmq
+      SPRING_RABBITMQ_PASSWORD: rabbitmq
+      # 🔧 Custom app-specific bindings
+      APP_RABBITMQ_EXCHANGE: loan-exchange
+      APP_RABBITMQ_QUEUE: loan-response-queue
+      APP_RABBITMQ_ROUTING-KEY: loan.response
+
 volumes:
   loandb_data:
   kafka_data:
+  rabbitmq_data:

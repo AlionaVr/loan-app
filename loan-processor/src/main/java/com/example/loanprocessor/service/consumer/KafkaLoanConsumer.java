@@ -1,6 +1,6 @@
 package com.example.loanprocessor.service.consumer;
 
-import com.example.loanprocessor.dto.event.IncomingLoanEvent;
+import com.example.loanprocessor.dto.event.LoanEvent;
 import com.example.loanprocessor.service.LoanDecisionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ public class KafkaLoanConsumer {
     private final LoanDecisionService loanDecisionService;
 
     @KafkaListener(topics = "loan-events", groupId = "loan-group")
-    public void listen(@Payload IncomingLoanEvent event,
+    public void listen(@Payload LoanEvent event,
                        @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                        @Header(KafkaHeaders.RECEIVED_PARTITION) int partition,
                        @Header(KafkaHeaders.OFFSET) long offset) {
